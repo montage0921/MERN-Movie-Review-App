@@ -1,5 +1,7 @@
 const express = require("express");
+require(`./db`);
 const userRouter = require("./routes/user");
+const mongoose = require("mongoose");
 
 const app = express();
 
