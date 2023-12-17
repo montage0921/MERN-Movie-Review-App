@@ -4,7 +4,7 @@
   "description": "for study and practice purpose",
   "main": "app.js",
   "scripts": {
-    "start":"nodemon app.js"
+    "start": "nodemon app.js"
   },
   "author": "gary shi",
   "license": "ISC",
