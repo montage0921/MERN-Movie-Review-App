@@ -1,3 +1,9 @@
 exports.create = (req, res) => {
-  res.send("<h2> User is created!</h2>");
+  //req.body: access json format request in backend.
+  console.log(req.body);
+
+  //res.json(): send a json format response to front end
+  res.json({
+    user: req.body,
+  });
 };
