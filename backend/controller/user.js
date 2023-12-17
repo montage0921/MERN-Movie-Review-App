@@ -21,11 +21,9 @@ exports.create = async (req, res) => {
     if (err.code == 11000)
       res.status(400).json({ error: "email already exists!" });
     else {
-      res
-        .status(500)
-        .json({
-          error: "an error occurred, please fix it and resend the request!",
-        });
+      res.status(500).json({
+        error: "an error occurred, please fix it and resend the request!",
+      });
     }
   }
 };
