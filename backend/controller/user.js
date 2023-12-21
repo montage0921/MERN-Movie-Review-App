@@ -18,6 +18,15 @@ exports.create = async (req, res) => {
   //it's an async step
   await newUser.save();
 
+  // var transport = nodemailer.createTransport({
+  //   host: "sandbox.smtp.mailtrap.io",
+  //   port: 2525,
+  //   auth: {
+  //     user: "49fb4679fc1c62",
+  //     pass: "d846c4b173b105"
+  //   }
+  // });
+
   //res.json(): send a json format response to front end
   //status 201:
   res.status(201).json({
