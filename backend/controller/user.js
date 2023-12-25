@@ -10,6 +10,7 @@ exports.create = async (req, res) => {
   //To prevent duplicate email address
   //status 401: unauthorized task
   const oldUser = await User.findOne({ email });
+
   if (oldUser)
     return res.status(401).json({ error: "This email already exists!" });
 
@@ -65,11 +66,14 @@ exports.create = async (req, res) => {
 exports.verifyEmail = async (req, res) => {
   const { userId, OTP } = req.body;
 
+  //isValidObjectId is a mongoose method
   if (!isValidObjectId(userId)) return res.json({ error: "Invalid user!" });
 
+  //findById is a mongoose method
   const user = await User.findById(userId);
   if (!user) return res.json({ error: "user not found!" });
 
+  //check if user is verified
   if (user.isVerified) return res.json({ error: "user is already verified" });
 
   const token = await EmailVerificationToken.findOne({ owner: userId });
@@ -77,6 +81,7 @@ exports.verifyEmail = async (req, res) => {
   if (!token) return res.json({ error: "token not found!" });
 
   const isMatched = await token.compareToken(OTP);
+
   if (!isMatched) return res.json({ error: "please submit a valid OTP" });
 
   user.isVerified = true;

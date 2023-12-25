@@ -28,7 +28,9 @@ emailVerificationTokenSchema.pre("save", async function (next) {
   next();
 });
 
+//schema.method is the way to create custom method for a model
 emailVerificationTokenSchema.methods.compareToken = async function (token) {
+  //bcrypt.compare is used to compare user-entered OTP and the OTP stored in the EmailVerificationToken database
   const result = await bcrypt.compare(token, this.token);
   return result;
 };
