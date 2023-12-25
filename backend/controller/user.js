@@ -3,6 +3,7 @@ const EmailVerificationToken = require("../models/emailVerificationToken.js");
 const nodemailer = require("nodemailer");
 const { isValidObjectId } = require("mongoose");
 
+//create a new user
 exports.create = async (req, res) => {
   //req.body: access json format request in backend.
   const { name, email, password } = req.body;
@@ -63,6 +64,7 @@ exports.create = async (req, res) => {
   });
 };
 
+//verify email
 exports.verifyEmail = async (req, res) => {
   const { userId, OTP } = req.body;
 
@@ -109,4 +111,62 @@ exports.verifyEmail = async (req, res) => {
   });
 
   res.json({ message: "Your email is verified." });
+};
+
+//resend email verification token after a set of time
+exports.resendEmailVerificationToken = async (req, res) => {
+  const { userId } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return res.json({ error: "user not found!" });
+
+  if (user.isVerified)
+    return res.json({ error: "this email id is already verified" });
+
+  //avoid multiple tokens for a same email at the same time
+  const alreadyHasToken = await EmailVerificationToken.findOne({
+    owner: userId,
+  });
+
+  if (alreadyHasToken)
+    return res.json({
+      error: "Only after one hour you can request for another token",
+    });
+
+  //if no token for this email
+  //generate 6 digit otp
+  let OTP = "";
+  for (let i = 0; i <= 5; i++) {
+    const randomVal = Math.round(Math.random() * 9);
+    OTP += randomVal;
+  }
+  //store otp inside our db
+  const newEmailVerificationToken = new EmailVerificationToken({
+    owner: user._id,
+    token: OTP,
+  });
+
+  await newEmailVerificationToken.save();
+
+  //send that otp to our user
+  var transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "49fb4679fc1c62",
+      pass: "d846c4b173b105",
+    },
+  });
+
+  transport.sendMail({
+    from: "verification@miff.com",
+    to: user.email,
+    subject: "Email Verification",
+    html: `
+     <p> Your verification OTP </p>
+     <h1> ${OTP}</h1>
+     `,
+  });
+
+  res.json({ message: "OTP has been sent to your register email account" });
 };
