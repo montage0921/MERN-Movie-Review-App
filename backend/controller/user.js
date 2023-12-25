@@ -75,4 +75,33 @@ exports.verifyEmail = async (req, res) => {
   const token = await EmailVerificationToken.findOne({ owner: userId });
 
   if (!token) return res.json({ error: "token not found!" });
+
+  const isMatched = await token.compareToken(OTP);
+  if (!isMatched) return res.json({ error: "please submit a valid OTP" });
+
+  user.isVerified = true;
+  await user.save();
+
+  await EmailVerificationToken.findByIdAndDelete(token._id);
+
+  var transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "49fb4679fc1c62",
+      pass: "d846c4b173b105",
+    },
+  });
+
+  transport.sendMail({
+    from: "verification@miff.com",
+    to: user.email,
+    subject: "Welcome to MIFF",
+    html: `
+    <p> Welcome! </p>
+    <h1> Welcome to MIFF website! </h1>
+    `,
+  });
+
+  res.json({ message: "Your email is verified." });
 };
