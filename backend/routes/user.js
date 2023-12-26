@@ -4,6 +4,7 @@ const {
   create,
   verifyEmail,
   resendEmailVerificationToken,
+  resetPassword,
 } = require("../controller/user");
 
 const { useValidator, validate } = require("../middlewares/validators");
@@ -17,5 +18,6 @@ router.get("/", (req, res) => {
 router.post("/create", useValidator, validate, create);
 router.post("/verify-email", verifyEmail);
 router.post("/resend-email-verification-token", resendEmailVerificationToken);
+router.post("/reset-password", resetPassword);
 
 module.exports = router;

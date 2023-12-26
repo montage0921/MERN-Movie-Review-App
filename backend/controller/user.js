@@ -151,3 +151,17 @@ exports.resendEmailVerificationToken = async (req, res) => {
 
   res.json({ message: "OTP has been sent to your register email account" });
 };
+
+exports.resetPassword = async (req, res) => {
+  const { userId } = req.body;
+
+  //check if the userID is valid
+  if (!isValidObjectId(userId)) return sendError(res, "Invalid user!");
+
+  const user = await User.findById(userId);
+
+  if (!user) return sendError(res, "User not found!");
+
+  const email = user.email;
+  return sendError(res, `the email is ${email}`);
+};
