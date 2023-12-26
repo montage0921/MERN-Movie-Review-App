@@ -3,9 +3,11 @@ const EmailVerificationToken = require("../models/emailVerificationToken.js");
 const PasswordResetToken = require("../models/passwordResetToken.js");
 
 const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
 const { isValidObjectId } = require("mongoose");
 const { generateOTP, generateMailTransporter } = require("../utils/mail.js");
-const { sendError } = require("../utils/helper.js");
+const { sendError, generateRandomByte } = require("../utils/helper.js");
 
 //create a new user
 exports.create = async (req, res) => {
@@ -169,4 +171,28 @@ exports.forgetPassword = async (req, res) => {
 
   if (alreadyHasToken)
     return sendError(res, "Only after one hour you can request another token!");
+
+  const token = await generateRandomByte();
+
+  const newPasswordResetToken = await PasswordResetToken({
+    owner: user._id,
+    token,
+  });
+  await newPasswordResetToken.save();
+
+  const resetPasswordUrl = `http://localhost:1108/reset-password?token=${token}&id=${user._id}`;
+
+  var transport = generateMailTransporter();
+
+  transport.sendMail({
+    from: "security@miff.com",
+    to: user.email,
+    subject: "Reset Password Link",
+    html: `
+     <p> Click here to reset passwword </p>
+     <a href=${resetPasswordUrl}> Change Password</a>
+     `,
+  });
+
+  res.json({ message: "link sent to your email" });
 };
