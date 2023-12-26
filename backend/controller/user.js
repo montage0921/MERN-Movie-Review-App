@@ -189,10 +189,18 @@ exports.forgetPassword = async (req, res) => {
     to: user.email,
     subject: "Reset Password Link",
     html: `
-     <p> Click here to reset passwword </p>
+     <p> Click here to reset password </p>
      <a href=${resetPasswordUrl}> Change Password</a>
      `,
   });
 
   res.json({ message: "link sent to your email" });
+};
+
+exports.sendResetPasswordTokenStatus = (req, res) => {
+  res.json({ valid: true });
+};
+
+exports.resetPassword = (req, res) => {
+  res.json({ valid: true });
 };

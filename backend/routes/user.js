@@ -5,9 +5,12 @@ const {
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
+  sendResetPasswordTokenStatus,
+  resetPassword,
 } = require("../controller/user");
 
 const { useValidator, validate } = require("../middlewares/validators");
+const { isValidPassResetToken } = require("../middlewares/user");
 
 const router = express.Router();
 
@@ -19,5 +22,11 @@ router.post("/create", useValidator, validate, create);
 router.post("/verify-email", verifyEmail);
 router.post("/resend-email-verification-token", resendEmailVerificationToken);
 router.post("/forget-password", forgetPassword);
+router.post(
+  "/verify-pass-reset-token",
+  isValidPassResetToken,
+  sendResetPasswordTokenStatus
+);
+router.post("/verify-pass-reset-token", isValidPassResetToken, resetPassword);
 
 module.exports = router;
