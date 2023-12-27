@@ -9,7 +9,11 @@ const {
   resetPassword,
 } = require("../controller/user");
 
-const { useValidator, validate } = require("../middlewares/validators");
+const {
+  useValidator,
+  validate,
+  passwordValidator,
+} = require("../middlewares/validators");
 const { isValidPassResetToken } = require("../middlewares/user");
 
 const router = express.Router();
@@ -27,6 +31,12 @@ router.post(
   isValidPassResetToken,
   sendResetPasswordTokenStatus
 );
-router.post("/verify-pass-reset-token", isValidPassResetToken, resetPassword);
+router.post(
+  "/reset-password",
+  passwordValidator,
+  validate,
+  isValidPassResetToken,
+  resetPassword
+);
 
 module.exports = router;

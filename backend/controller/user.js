@@ -8,6 +8,7 @@ const crypto = require("crypto");
 const { isValidObjectId } = require("mongoose");
 const { generateOTP, generateMailTransporter } = require("../utils/mail.js");
 const { sendError, generateRandomByte } = require("../utils/helper.js");
+const SendmailTransport = require("nodemailer/lib/sendmail-transport/index.js");
 
 //create a new user
 exports.create = async (req, res) => {
@@ -201,6 +202,37 @@ exports.sendResetPasswordTokenStatus = (req, res) => {
   res.json({ valid: true });
 };
 
-exports.resetPassword = (req, res) => {
-  res.json({ valid: true });
+exports.resetPassword = async (req, res) => {
+  const { newPassword, userId } = req.body;
+
+  const user = await User.findById(userId);
+
+  const matched = await user.comparePassword(newPassword);
+
+  if (matched)
+    return sendError(
+      res,
+      "The new password must be different with the old one"
+    );
+
+  user.password = newPassword;
+  await user.save();
+
+  await PasswordResetToken.findByIdAndDelete(req.resetToken._id);
+
+  const transport = generateMailTransporter();
+
+  transport.sendMail({
+    from: "security@miff.com",
+    to: user.email,
+    subject: "Password Reset Successfully!",
+    html: `
+     <h1> Password Reset Successfully! </h1>
+     <p> Now you can use your new password</p>
+     `,
+  });
+
+  res.json({
+    message: "Password reset successfully, now you can use new password!",
+  });
 };

@@ -35,4 +35,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+//schema.method is the way to create custom method for a model
+userSchema.methods.comparePassword = async function (password) {
+  //bcrypt.compare is used to compare user-entered OTP and the OTP stored in the EmailVerificationToken database
+  const result = await bcrypt.compare(password, this.password);
+  return result;
+};
+
 module.exports = mongoose.model("User", userSchema);
