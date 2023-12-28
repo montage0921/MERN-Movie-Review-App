@@ -244,7 +244,7 @@ exports.resetPassword = async (req, res) => {
 exports.signIn = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne(email);
+  const user = await User.findOne({ email });
   //check if email is valid
   if (!user) return sendError(res, "email or password mismatch");
 

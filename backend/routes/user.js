@@ -43,6 +43,6 @@ router.post(
   resetPassword
 );
 
-router.post("/sign-in", signInValidator, signIn);
+router.post("/sign-in", signInValidator, validate, signIn);
 
 module.exports = router;
