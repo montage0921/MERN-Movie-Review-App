@@ -252,7 +252,7 @@ exports.signIn = async (req, res) => {
   //check if password is valid
   if (!matched) return sendError(res, "email or password mismatch");
 
-  const { _id, name, userEmail } = user;
+  const { _id, name } = user;
 
   const jwtToken = jwt.sign(
     {
@@ -264,5 +264,5 @@ exports.signIn = async (req, res) => {
     }
   );
 
-  res.json({ user: _id, name, userEmail, token: jwtToken });
+  res.json({ user: _id, name, email, token: jwtToken });
 };
