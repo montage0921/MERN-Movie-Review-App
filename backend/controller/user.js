@@ -258,7 +258,7 @@ exports.signIn = async (req, res) => {
     {
       userId: _id,
     },
-    "fjiasdojfioasdjfiosdjagasdnjknqi910f",
+    process.env.JWT_TOKEN,
     {
       expiresIn: "1d",
     }
