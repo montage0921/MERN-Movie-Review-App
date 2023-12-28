@@ -11,19 +11,19 @@ app.use(express.json());
 
 app.use("/api/user", userRouter);
 
-app.post(
-  "/sign-in",
-  (req, res, next) => {
-    const { email, password } = req.body;
-    if (!email || !password)
-      return res.json({ error: "password/email missing!" });
+// app.post(
+//   "/sign-in",
+//   (req, res, next) => {
+//     const { email, password } = req.body;
+//     if (!email || !password)
+//       return res.json({ error: "password/email missing!" });
 
-    next();
-  },
-  (req, res) => {
-    res.send("<h1>Hello you signed-in!</h1>");
-  }
-);
+//     next();
+//   },
+//   (req, res) => {
+//     res.send("<h1>Hello you signed-in!</h1>");
+//   }
+// );
 
 app.listen(1108, () => {
   console.log("the port is listening on port 1108");
