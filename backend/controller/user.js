@@ -1,10 +1,14 @@
+//import database
 const User = require("../models/user.js");
 const EmailVerificationToken = require("../models/emailVerificationToken.js");
 const PasswordResetToken = require("../models/passwordResetToken.js");
 
+//import npm package
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
+//import methods from other files
 const { isValidObjectId } = require("mongoose");
 const { generateOTP, generateMailTransporter } = require("../utils/mail.js");
 const { sendError, generateRandomByte } = require("../utils/helper.js");
