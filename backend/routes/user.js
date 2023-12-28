@@ -1,5 +1,6 @@
 const express = require("express");
 
+//import controllers
 const {
   create,
   verifyEmail,
@@ -7,12 +8,15 @@ const {
   forgetPassword,
   sendResetPasswordTokenStatus,
   resetPassword,
+  signIn,
 } = require("../controller/user");
 
+//import middleware functions
 const {
   useValidator,
   validate,
   passwordValidator,
+  signInValidator,
 } = require("../middlewares/validators");
 const { isValidPassResetToken } = require("../middlewares/user");
 
@@ -38,5 +42,7 @@ router.post(
   isValidPassResetToken,
   resetPassword
 );
+
+router.post("/sign-in", signInValidator, signIn);
 
 module.exports = router;

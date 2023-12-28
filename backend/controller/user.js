@@ -240,3 +240,29 @@ exports.resetPassword = async (req, res) => {
     message: "Password reset successfully, now you can use new password!",
   });
 };
+
+exports.signIn = async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne(email);
+  //check if email is valid
+  if (!user) return sendError(res, "email or password mismatch");
+
+  const matched = await user.comparePassword(password);
+  //check if password is valid
+  if (!matched) return sendError(res, "email or password mismatch");
+
+  const { _id, name, userEmail } = user;
+
+  const jwtToken = jwt.sign(
+    {
+      userId: _id,
+    },
+    "fjiasdojfioasdjfiosdjagasdnjknqi910f",
+    {
+      expiresIn: "1d",
+    }
+  );
+
+  res.json({ user: _id, name, userEmail, token: jwtToken });
+};
