@@ -1,10 +1,12 @@
 require("dotenv").config();
+require("express-async-errors");
 
 const express = require("express");
 require(`./db`);
 const userRouter = require("./routes/user");
 
 const mongoose = require("mongoose");
+const { errorHandler } = require("./middlewares/error");
 
 const app = express();
 
@@ -13,6 +15,10 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/user", userRouter);
+
+//error handling method
+//need to add at the end of the controllers that use it
+app.use(errorHandler);
 
 // app.post(
 //   "/sign-in",
