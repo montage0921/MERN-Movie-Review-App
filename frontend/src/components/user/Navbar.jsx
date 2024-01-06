@@ -5,7 +5,7 @@ import Container from '../Container';
 
 export default function Navbar() {
   return (
-    <div className="bg-secondary">
+    <div className="bg-secondary shadow-sm shadow-gray-500">
         <Container className=" text-white p-2  ">
           <div className="flex justify-between items-center">
             <img src="./logo-color.png" alt="" className='h-10 ' />
