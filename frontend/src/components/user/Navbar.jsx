@@ -10,7 +10,7 @@ export default function Navbar() {
           <img src="./logo-color.png" alt="" className='h-10 ' />
            <ul className='flex items-center space-x-4'>
             <li>
-              <button className='bg-dark-subtle p-1 rounded' >
+              <button className='bg-mzy-blue p-1 rounded' >
                 <GiFilmSpool className='text-white ' size={24}/> 
               </button> 
             </li>
