@@ -6,7 +6,7 @@ export default function FormInput({ name, placeholder, label, ...rest }) {
       <input
         id={name}
         name={name}
-        className="bg-transparent rounded border-2 border-dark-subtle focus:border-white text-lg outline-none p-1 text-white peer transition "
+        className="bg-transparent rounded border-2 border-dark-subtle focus:border-white text-base outline-none p-1 text-white peer transition "
         placeholder={placeholder}
         {...rest}
       />
