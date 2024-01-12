@@ -7,21 +7,26 @@ import { useState } from "react";
 const OTP_LENGTH = 6;
 
 export default function EmailVerification() {
-  const [otp, setOTP] = useState(new Array(OTP_LENGTH).fill(""));
-  const [activeOtpIndex, setActiveOtpIndex] = useState(0);
+  const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
+  const [activeOtp, setActiveOtp] = useState(0);
   const inputRef = useRef();
 
-  const handleOtpChange = ({ target }, index) => {
-    const { value } = target;
-    const newOtp = [...otp];
-    newOtp[index] = value.substring(value.length - 1, value.length);
-    setOTP([...newOtp]);
-    setActiveOtpIndex(activeOtpIndex + 1);
-  };
+  function handleOnChange(e, index) {
+    const value = e.target.value;
+
+    const digit = value.substring(value.length - 1, value.length);
+
+    const copyOtp = [...otp];
+
+    copyOtp[index] = digit;
+    setOtp(copyOtp);
+
+    setActiveOtp(activeOtp + 1);
+  }
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, [activeOtpIndex]);
+    if (activeOtp < OTP_LENGTH) inputRef.current.focus();
+  }, [activeOtp]);
 
   return (
     <div className="fixed  inset-0 bg-primary -z-10 flex justify-center items-center">
@@ -38,10 +43,10 @@ export default function EmailVerification() {
             {otp.map((_, index) => {
               return (
                 <input
-                  ref={activeOtpIndex === index ? inputRef : null}
                   key={index}
-                  value={otp[index] || ""}
-                  onChange={(e) => handleOtpChange(e, index)}
+                  value={otp[index]}
+                  ref={activeOtp === index ? inputRef : null}
+                  onChange={(e) => handleOnChange(e, index)}
                   className="w-12 h-12 border-2 rounded border-dark-subtle outline-none focus:border-white bg-transparent text-center text-xl text-white font-semibold"
                   type="number"
                 />
