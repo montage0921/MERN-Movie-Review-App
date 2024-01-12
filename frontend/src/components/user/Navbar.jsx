@@ -2,13 +2,17 @@ import React from "react";
 import { GiFilmSpool } from "react-icons/gi";
 import Container from "../Container";
 import { Link } from "react-router-dom";
+import CustomLink from "../CustomLink";
 
 export default function Navbar() {
   return (
     <div className="bg-secondary shadow-sm shadow-gray-500 px-10 ">
       <Container className=" text-white p-2  ">
         <div className="flex justify-between items-center">
-          <img src="./logo-color.png" alt="" className="h-10 " />
+          <CustomLink to={"/"}>
+            <img src="./logo-color.png" alt="" className="h-10 " />
+          </CustomLink>
+
           <ul className="flex items-center space-x-4">
             <li>
               <button className="bg-mzy-blue p-1 rounded">
@@ -22,12 +26,9 @@ export default function Navbar() {
                 placeholder="search..."
               />
             </li>
-            <Link
-              className="text-white font-semibold text-lg"
-              to="/auth/signin"
-            >
-              Login
-            </Link>
+            <li>
+              <CustomLink to={"/auth/signin"}>Sign In</CustomLink>
+            </li>
           </ul>
         </div>
       </Container>
