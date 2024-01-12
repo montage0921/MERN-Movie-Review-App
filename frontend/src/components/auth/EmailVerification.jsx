@@ -11,6 +11,14 @@ export default function EmailVerification() {
   const [activeOtp, setActiveOtp] = useState(0);
   const inputRef = useRef();
 
+  function focusNextInputField(index) {
+    setActiveOtp(index + 1);
+  }
+
+  function focusPreInputField(index) {
+    setActiveOtp(index - 1);
+  }
+
   function handleOnChange(e, index) {
     const value = e.target.value;
 
@@ -19,13 +27,20 @@ export default function EmailVerification() {
     const copyOtp = [...otp];
 
     copyOtp[index] = digit;
-    setOtp(copyOtp);
 
-    setActiveOtp(activeOtp + 1);
+    console.log(value);
+    if (!value) {
+      focusPreInputField(index);
+    } else {
+      focusNextInputField(index);
+    }
+
+    console.log(inputRef.current);
+    setOtp(copyOtp);
   }
 
   useEffect(() => {
-    if (activeOtp < OTP_LENGTH) inputRef.current.focus();
+    inputRef.current?.focus();
   }, [activeOtp]);
 
   return (
