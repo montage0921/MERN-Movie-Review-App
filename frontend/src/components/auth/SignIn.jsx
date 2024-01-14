@@ -6,14 +6,11 @@ import Submit from "../form/Submit";
 import CustomLink from "../CustomLink";
 
 import { useTheme } from "../../hooks";
+import { ThemeContext } from "../../context/ThemeProvider";
 
 export default function SignIn() {
-  //a custom hook is created for useContext()
-  const theme = useTheme();
-  console.log(theme.theme);
-
   return (
-    <div className="fixed  inset-0 bg-primary -z-10 flex justify-center items-center">
+    <div className="fixed  inset-0 dark:bg-primary -z-10 flex justify-center items-center">
       <Container>
         <form className="bg-mzy-blue rounded p-6 w-72 space-y-6 ">
           <Title>Sign in</Title>
