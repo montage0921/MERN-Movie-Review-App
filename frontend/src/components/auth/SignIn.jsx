@@ -5,7 +5,13 @@ import FormInput from "../form/FormInput";
 import Submit from "../form/Submit";
 import CustomLink from "../CustomLink";
 
+import { useTheme } from "../../hooks";
+
 export default function SignIn() {
+  //a custom hook is created for useContext()
+  const theme = useTheme();
+  console.log(theme.theme);
+
   return (
     <div className="fixed  inset-0 bg-primary -z-10 flex justify-center items-center">
       <Container>
