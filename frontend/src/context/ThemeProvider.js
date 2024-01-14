@@ -9,25 +9,25 @@ const darkTheme = "dark";
 export default function ThemeProvider({ children }) {
   const toggleTheme = () => {
     //get first oldTheme
-    const oldTheme = localStorage.getItem("theme");
+    const oldTheme = getTheme();
 
     //oldTheme is always opposite of newTheme
     //two possible values for them: 1. light/dark 2.dark/light
     //so if oldTheme is dark, then newTheme must be light and vice versa
     const newTheme = oldTheme === defaultTheme ? darkTheme : defaultTheme;
 
-    document.documentElement.classList.add(newTheme);
-    document.documentElement.classList.remove(oldTheme);
+    addTheme(newTheme);
+    removeTheme(oldTheme);
 
-    localStorage.setItem("theme", newTheme);
+    saveTheme(newTheme);
   };
 
   useEffect(() => {
     //call when the page is refreshed
     //three possible conditions: " ", dark and light
-    const theme = localStorage.getItem("theme");
-    if (!theme) document.documentElement.classList.add(defaultTheme);
-    else document.documentElement.classList.add(theme);
+    const theme = getTheme();
+    if (!theme) addTheme(defaultTheme);
+    else addTheme(theme);
   }, []);
 
   return (
@@ -36,3 +36,19 @@ export default function ThemeProvider({ children }) {
     </ThemeContext.Provider>
   );
 }
+
+const getTheme = () => {
+  return localStorage.getItem("theme");
+};
+
+const saveTheme = (theme) => {
+  localStorage.setItem("theme", theme);
+};
+
+const addTheme = (theme) => {
+  document.documentElement.classList.add(theme);
+};
+
+const removeTheme = (theme) => {
+  document.documentElement.classList.remove(theme);
+};
