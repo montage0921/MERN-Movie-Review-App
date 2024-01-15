@@ -8,7 +8,7 @@ import { useTheme } from "../../hooks";
 export default function Navbar() {
   const { toggleTheme } = useTheme();
   return (
-    <div className="bg-secondary shadow-sm shadow-gray-500 px-10 ">
+    <div className="bg-mzy-blue shadow-sm shadow-gray-500 px-10 ">
       <Container className=" text-white p-2  ">
         <div className="flex justify-between items-center">
           <CustomLink to={"/"}>
@@ -18,7 +18,10 @@ export default function Navbar() {
           <ul className="flex items-center space-x-4">
             <li>
               <button onClick={toggleTheme} className="bg-mzy-blue p-1 rounded">
-                <GiFilmSpool className="text-white " size={24} />
+                <GiFilmSpool
+                  className="dark:text-white text-black "
+                  size={24}
+                />
               </button>
             </li>
             <li>
