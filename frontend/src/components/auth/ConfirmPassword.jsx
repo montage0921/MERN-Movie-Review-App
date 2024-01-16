@@ -4,10 +4,11 @@ import Title from "../form/Title";
 import FormInput from "../form/FormInput";
 import CustomLink from "../CustomLink";
 import Submit from "../form/Submit";
+import FormContainer from "../form/FormContainer";
 
 export default function ConfirmPassword() {
   return (
-    <div className="fixed  inset-0 bg-primary -z-10 flex justify-center items-center">
+    <FormContainer>
       <Container>
         <form className="bg-mzy-blue rounded p-6 w-96 space-y-6 ">
           <Title>Please Confirm Your Email</Title>
@@ -27,6 +28,6 @@ export default function ConfirmPassword() {
           <Submit value={"Confirm Password"}></Submit>
         </form>
       </Container>
-    </div>
+    </FormContainer>
   );
 }

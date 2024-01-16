@@ -3,6 +3,7 @@ import Container from "../Container";
 import Title from "../form/Title";
 import Submit from "../form/Submit";
 import { useState } from "react";
+import FormContainer from "../form/FormContainer";
 
 const OTP_LENGTH = 6;
 
@@ -58,7 +59,7 @@ export default function EmailVerification() {
   }, [activeOtp]);
 
   return (
-    <div className="fixed  inset-0 bg-primary -z-10 flex justify-center items-center">
+    <FormContainer>
       <Container>
         <form className="bg-mzy-blue rounded p-6 space-y-6  ">
           <div>
@@ -87,6 +88,6 @@ export default function EmailVerification() {
           <Submit value={"Verify"}></Submit>
         </form>
       </Container>
-    </div>
+    </FormContainer>
   );
 }

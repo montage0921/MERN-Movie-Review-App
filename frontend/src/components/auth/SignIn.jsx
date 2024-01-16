@@ -4,12 +4,14 @@ import Title from "../form/Title";
 import FormInput from "../form/FormInput";
 import Submit from "../form/Submit";
 import CustomLink from "../CustomLink";
+import { commonModalClasses } from "../../utils/theme";
+import FormContainer from "../form/FormContainer";
 
 export default function SignIn() {
   return (
-    <div className="fixed  inset-0 dark:bg-primary -z-10 flex justify-center items-center">
+    <FormContainer>
       <Container>
-        <form className="bg-mzy-blue  rounded p-6 w-72 space-y-6 ">
+        <form className={commonModalClasses + " w-72"}>
           <Title>Sign in</Title>
           <FormInput
             name={"email"}
@@ -32,6 +34,6 @@ export default function SignIn() {
           </div>
         </form>
       </Container>
-    </div>
+    </FormContainer>
   );
 }
