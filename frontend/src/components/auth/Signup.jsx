@@ -7,6 +7,29 @@ import CustomLink from "../CustomLink";
 import { commonModalClasses } from "../../utils/theme";
 import FormContainer from "../form/FormContainer";
 
+const validateUserInfo = (userInfo) => {
+  const { name, email, password } = userInfo;
+
+  //regular expression for validating email
+  const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  //check if name is missing
+  if (!name) return { ok: false, error: `Name is missing!` };
+
+  //check if email is missing
+  if (!email.trim()) return { ok: false, error: `Email is missing` };
+  //check if email is valid
+  if (!isValidEmail.test(email)) return { ok: false, error: `Invalid email` };
+
+  //check if password is missing
+  if (!password.trim()) return { ok: false, error: `Password is missing` };
+  //password need to >=8
+  if (password.length < 8)
+    return { ok: false, error: `Password must be at least 8 characters` };
+
+  return { ok: true };
+};
+
 export default function Signup() {
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -17,7 +40,10 @@ export default function Signup() {
   const { name, email, password } = userInfo;
 
   const handleOnChange = (e) => {
+    //value input
     const value = e.target.value;
+
+    //name of the current input field
     const name = e.target.name;
 
     //a common way to update object type state
@@ -28,6 +54,10 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { ok, error } = validateUserInfo(userInfo);
+
+    if (!ok) return console.log(error);
+
     console.log(userInfo);
   };
 
