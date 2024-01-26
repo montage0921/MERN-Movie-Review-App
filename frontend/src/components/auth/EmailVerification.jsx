@@ -77,16 +77,12 @@ export default function EmailVerification() {
     if (!isValidOTP(otp)) console.log("Invalid OTP");
 
     //submit otp
-    const userInfo = { otp, id: user.id };
-    console.log(userInfo);
+    const userInfo = { OTP: otp.join(""), userId: user.id };
     const response = await verifyUserEmail(userInfo);
 
     if (response.error) return console.log(response.error);
 
-    // navigate("/auth/verification", {
-    //   state: { user: response.user },
-    //   relpace: true,
-    // });
+    console.log(response.message);
   };
 
   useEffect(() => {
