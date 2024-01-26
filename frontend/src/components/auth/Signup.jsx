@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "../Container";
 import Title from "../form/Title";
 import FormInput from "../form/FormInput";
@@ -40,6 +41,9 @@ export default function Signup() {
 
   const { name, email, password } = userInfo;
 
+  //return a method for changing the location
+  const navigate = useNavigate();
+
   const handleOnChange = (e) => {
     //value input
     const value = e.target.value;
@@ -61,9 +65,13 @@ export default function Signup() {
 
     //use axios function to submit userInfo to backend
     const response = await createUser(userInfo);
-    console.log(response);
-    // if (response.error) return console.log(response.error);
-    // console.log(response.user);
+
+    if (response.error) return console.log(response.error);
+
+    navigate("/auth/verification", {
+      state: { user: response.user },
+      relpace: true,
+    });
   };
 
   return (

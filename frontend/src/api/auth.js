@@ -3,7 +3,7 @@ import client from "./client";
 export const createUser = async (userInfo) => {
   try {
     //data contains response from the backend
-    const { data } = await client.post("/user/create", userInfo);
+    const { data } = await client.post("/user/garyshi", userInfo);
     return data;
   } catch (error) {
     //response is an important object contain responses from the backend

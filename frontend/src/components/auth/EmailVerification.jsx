@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../Container";
 import Title from "../form/Title";
 import Submit from "../form/Submit";
@@ -15,6 +16,11 @@ export default function EmailVerification() {
   //update highlighted otp grid
   const [activeOtp, setActiveOtp] = useState(0);
   const inputRef = useRef();
+
+  const navigate = useNavigate();
+
+  const { state } = useLocation();
+  const user = state?.user;
 
   function focusNextInputField(currentOTPIndex) {
     setActiveOtp(currentOTPIndex + 1);
@@ -57,6 +63,10 @@ export default function EmailVerification() {
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeOtp]);
+
+  useEffect(() => {
+    if (!user) navigate("/not-found");
+  }, [user]);
 
   return (
     <FormContainer>
