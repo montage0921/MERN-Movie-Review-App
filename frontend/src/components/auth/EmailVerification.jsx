@@ -5,10 +5,22 @@ import Title from "../form/Title";
 import Submit from "../form/Submit";
 import { useState } from "react";
 import FormContainer from "../form/FormContainer";
+import { verifyUserEmail } from "../../api/auth";
 
 const OTP_LENGTH = 6;
 
 let currentOTPIndex;
+
+const isValidOTP = (otp) => {
+  let valid = false;
+
+  for (let val of otp) {
+    valid = !isNaN(parseInt(val));
+    if (!valid) break;
+  }
+
+  return valid;
+};
 
 export default function EmailVerification() {
   //update OTP array
@@ -31,7 +43,6 @@ export default function EmailVerification() {
   }
 
   function handleOnChange(e) {
-    console.log(currentOTPIndex);
     const value = e.target.value;
 
     //only keep the last digit of user's input number
@@ -60,6 +71,24 @@ export default function EmailVerification() {
     if (key === "ArrowRight") focusNextInputField(currentOTPIndex);
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isValidOTP(otp)) console.log("Invalid OTP");
+
+    //submit otp
+    const userInfo = { otp, id: user.id };
+    console.log(userInfo);
+    const response = await verifyUserEmail(userInfo);
+
+    if (response.error) return console.log(response.error);
+
+    // navigate("/auth/verification", {
+    //   state: { user: response.user },
+    //   relpace: true,
+    // });
+  };
+
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeOtp]);
@@ -71,7 +100,10 @@ export default function EmailVerification() {
   return (
     <FormContainer>
       <Container>
-        <form className="bg-mzy-blue rounded p-6 space-y-6  ">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-mzy-blue rounded p-6 space-y-6  "
+        >
           <div>
             <Title>Please enter the OTP to verify your account</Title>
             <p className="text-center text-dark-subtle">
