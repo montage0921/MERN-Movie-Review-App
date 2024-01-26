@@ -8,6 +8,7 @@ const userRouter = require("./routes/user");
 const mongoose = require("mongoose");
 const { errorHandler } = require("./middlewares/error");
 const cors = require("cors");
+const { handleNotFound } = require("./utils/helper");
 
 const app = express();
 
@@ -18,6 +19,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/user", userRouter);
+
+//handle 404 error
+app.use("/*", handleNotFound);
 
 //error handling method
 //need to add at the end of the controllers that use it
