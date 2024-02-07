@@ -25,6 +25,7 @@ const isValidOTP = (otp) => {
 export default function EmailVerification() {
   //update OTP array
   const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
+
   //update highlighted otp grid
   const [activeOtp, setActiveOtp] = useState(0);
   const inputRef = useRef();
