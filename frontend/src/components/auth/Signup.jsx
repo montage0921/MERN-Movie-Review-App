@@ -8,6 +8,7 @@ import CustomLink from "../CustomLink";
 import { commonModalClasses } from "../../utils/theme";
 import FormContainer from "../form/FormContainer";
 import { createUser } from "../../api/auth";
+import { useNotification } from "../../hooks";
 
 const validateUserInfo = (userInfo) => {
   const { name, email, password } = userInfo;
@@ -44,6 +45,9 @@ export default function Signup() {
   //return a method for changing the location
   const navigate = useNavigate();
 
+  //
+  const { updateNotification } = useNotification();
+
   const handleOnChange = (e) => {
     //value input
     const value = e.target.value;
@@ -61,7 +65,7 @@ export default function Signup() {
     e.preventDefault();
     const { ok, error } = validateUserInfo(userInfo);
 
-    if (!ok) return console.log(error);
+    if (!ok) return updateNotification("error", error);
 
     //use axios function to submit userInfo to backend
     const response = await createUser(userInfo);

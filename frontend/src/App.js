@@ -8,6 +8,7 @@ import EmailVerification from "./components/auth/EmailVerification";
 import ForgetPassword from "./components/auth/ForgetPassword";
 import ConfirmPassword from "./components/auth/ConfirmPassword";
 import NotFound from "./components/NotFound";
+import NotificationProvider from "./context/NotificationProvider";
 
 export default function App() {
   return (
